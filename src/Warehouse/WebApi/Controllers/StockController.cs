@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Features.Products.Query;
+using Application.Features.Products.Synchronize;
+using Infrastructure.Http;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Runtime.CompilerServices;
 using WebApi.Configuration;
 
 namespace WebApi.Controllers
@@ -11,29 +14,29 @@ namespace WebApi.Controllers
     {
         private readonly ILogger<StockController> _logger;
         private readonly ProductsSourceConfig _productsSourceConfig;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IRetrieveProductsService _retrieveProductsService;
+        private readonly IMediator _mediator;
 
         public StockController(
             ILogger<StockController> logger,
             IOptions<ProductsSourceConfig> productsSourcs,
-            IHttpClientFactory httpClientFactory)
+            IRetrieveProductsService retrieveProductsService,
+            IMediator mediator)
         {
             _logger = logger;
             _productsSourceConfig = productsSourcs.Value;
-            _httpClientFactory = httpClientFactory;
+            _retrieveProductsService = retrieveProductsService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(string input, CancellationToken cancellationToken)
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            var products = await _mediator.Send(new GetProductsQuery(input));
 
-            var response = await httpClient.GetAsync(_productsSourceConfig.Uri, cancellationToken);
-
-            if (response.IsSuccessStatusCode)
+            if (products != null)
             {
-                var stringResult = await response.Content.ReadAsStringAsync(cancellationToken);
-                return Ok(stringResult);
+                return Ok(products);
             }
             else
             {
