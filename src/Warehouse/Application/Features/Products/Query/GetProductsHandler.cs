@@ -1,4 +1,5 @@
-﻿using Application.Extensions;
+﻿using Application.Exceptions;
+using Application.Extensions;
 using Domain.Models;
 using FluentValidation;
 using Infrastructure.Cache;
@@ -23,7 +24,7 @@ namespace Application.Features.Products.Query
 
             if (!validationResult.IsValid)
             {
-                throw new ValidationException(validationResult.Errors);
+                throw new ModelValidationException(validationResult);
             }
 
             var cachedProducts = _cacheProvider.Get<List<Product>>(AppConstants.ProductsCacheKey);

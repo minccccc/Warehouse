@@ -4,6 +4,7 @@ using FluentValidation;
 using Infrastructure.Http;
 using WebApi.Background;
 using WebApi.Configuration;
+using WebApi.ErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCacheConfiguration();
@@ -33,6 +34,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddValidatorsFromAssembly(typeof(AppConstants).Assembly);
 
 var app = builder.Build();
+//Add Global exception handler
+app.UseExceptionHandler(exceptionHandlerApp => exceptionHandlerApp.ConfigureExceptionHandler());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
