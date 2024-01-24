@@ -22,7 +22,11 @@ namespace WebApi.Background
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await _mediator.Send(new SyncProductsCommand(_productsSourceConfig.Uri));
+                try
+                {
+                    await _mediator.Send(new SyncProductsCommand(_productsSourceConfig.Uri));
+                }
+                catch { }
 
                 await Task.Delay(TimeSpan.FromSeconds(_productsSourceConfig.RefreshTime), stoppingToken);
             }

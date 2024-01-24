@@ -1,18 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Infrastructure.Http
 {
     public class RetrieveProductsService : IRetrieveProductsService
     {
-        private readonly ILogger<RetrieveProductsService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
 
         public RetrieveProductsService(
-            ILogger<RetrieveProductsService> logger, 
             IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
 
@@ -32,12 +28,11 @@ namespace Infrastructure.Http
                 }
                 else
                 {
-                    throw new Exception(response.StatusCode.ToString());
+                    throw new Exception($"Failed to retrieve products from the source {response.StatusCode}");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError(ex, "Failed to retrieve products from the source");
                 throw;
             }
         }

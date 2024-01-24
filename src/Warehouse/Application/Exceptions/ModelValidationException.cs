@@ -4,11 +4,12 @@ namespace Application.Exceptions
 {
     public class ModelValidationException : Exception
     {
-        public List<ValidationFailure> Errors{ get; set; }
+        public List<ValidationFailure> Errors { get; set; }
 
-        public ModelValidationException(ValidationResult validationResult)
+        public ModelValidationException(List<ValidationFailure> errors)
+            : base(string.Join(',', errors.Select(f => f.ErrorMessage)))
         {
-            Errors = validationResult.Errors;
+            Errors = errors;
         }
     }
 }

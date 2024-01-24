@@ -1,7 +1,9 @@
 using Application;
+using Application.PipelineBehaviors;
 using FluentValidation;
 using Infrastructure.Http;
 using Infrastructure.Logger.Configurtion;
+using MediatR;
 using WebApi.Background;
 using WebApi.Configuration;
 using WebApi.ErrorHandling;
@@ -28,6 +30,8 @@ builder.Services.AddSwaggerGen();
 //add MediatR
 builder.Services.AddMediatR(cfg =>
      cfg.RegisterServicesFromAssembly(typeof(AppConstants).Assembly));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 //Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
