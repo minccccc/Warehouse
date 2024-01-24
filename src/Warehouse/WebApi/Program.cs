@@ -1,7 +1,7 @@
 using Application;
-using Application.Validators;
 using FluentValidation;
 using Infrastructure.Http;
+using Infrastructure.Logger.Configurtion;
 using WebApi.Background;
 using WebApi.Configuration;
 using WebApi.ErrorHandling;
@@ -12,6 +12,8 @@ builder.Services.AddMemoryCacheConfiguration();
 //Set configuration
 var productSourceSection = builder.Configuration.GetSection(AppConstants.Configuration.ProductsSourceSection);
 builder.Services.Configure<ProductsSourceConfig>(productSourceSection);
+
+builder.Logging.AddLogger(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
