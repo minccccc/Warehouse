@@ -1,4 +1,4 @@
-﻿namespace WebApi.Configuration
+﻿namespace Application.Configuration
 {
     public class ProductsSourceConfig
     {

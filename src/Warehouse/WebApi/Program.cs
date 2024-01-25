@@ -1,43 +1,23 @@
-using Application;
-using Application.PipelineBehaviors;
-using FluentValidation;
-using Infrastructure.Http;
+using Application.Configuration;
+using Infrastructure.Http.Configuration;
 using Infrastructure.Logger.Configurtion;
-using MediatR;
-using WebApi.Background;
 using WebApi.Configuration;
 using WebApi.ErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddMemoryCacheConfiguration();
-
-//Set configuration
-var productSourceSection = builder.Configuration.GetSection(AppConstants.Configuration.ProductsSourceSection);
-builder.Services.Configure<ProductsSourceConfig>(productSourceSection);
 
 builder.Logging.AddLogger(builder.Configuration);
 
-// Add services to the container.
-builder.Services.AddHttpClient();
-builder.Services.AddHostedService<ProductsSyncService>();
-builder.Services.AddTransient<IRetrieveProductsService, RetrieveProductsService>();
-
+builder.Services.AddMemoryCacheConfiguration();
+builder.Services.AddQuartzConfiguration(builder.Configuration);
+builder.Services.AddHttpConfiguration();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddMediatrConfiguration();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddFluentValidatorConfiguration();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//add MediatR
-builder.Services.AddMediatR(cfg =>
-     cfg.RegisterServicesFromAssembly(typeof(AppConstants).Assembly));
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-//Add AutoMapper
-builder.Services.AddAutoMapper(typeof(Program));
-
-//Add FluentValidator
-builder.Services.AddValidatorsFromAssembly(typeof(AppConstants).Assembly);
 
 var app = builder.Build();
 //Add Global exception handler
