@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] GetProductsQuery query, CancellationToken cancellationToken)
         {
-            var productsResult = await _mediator.Send(query);
+            var productsResult = await _mediator.Send(query, cancellationToken);
 
             var response = _mapper.Map<QueryProductsResponseDto>(productsResult);
 
