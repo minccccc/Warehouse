@@ -26,14 +26,7 @@ namespace WebApi.Controllers
 
             var response = _mapper.Map<QueryProductsResponseDto>(productsResult);
 
-            if (response != null)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return Ok(response);
         }
     }
 }
