@@ -9,12 +9,12 @@ using MediatR;
 
 namespace Application.Features.Queries.GetProducts;
 
-public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsDto>
+public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, GetProductsDto>
 {
     private readonly IMapper _mapper;
     private readonly ICacheProvider _cacheProvider;
 
-    public GetProductsHandler(ICacheProvider cacheProvider, IMapper mapper)
+    public GetProductsQueryHandler(ICacheProvider cacheProvider, IMapper mapper)
     {
         _cacheProvider = cacheProvider;
         _mapper = mapper;

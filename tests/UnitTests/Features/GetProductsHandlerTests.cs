@@ -92,7 +92,7 @@ public class GetProductsHandlerTests
         var cacheProviderMock = ICacheProviderMock.GetMock();
         var mapperMock = IMapperMock.GetMock();
 
-        var handler = new GetProductsHandler(cacheProviderMock.Object, mapperMock.Object);
+        var handler = new GetProductsQueryHandler(cacheProviderMock.Object, mapperMock.Object);
 
         return await handler.Handle(query, new CancellationToken());
     }
