@@ -2,29 +2,28 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Application.PipelineBehaviors
+namespace Application.PipelineBehaviors;
+
+public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
+
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
     {
-        private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
+        _logger = logger;
+    }
 
-        public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        try
         {
-            _logger = logger;
+            _logger.LogNewRequestInfoMessage(request.GetType().Name);
+            return await next();
         }
-
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
-            {
-                _logger.LogNewRequestInfoMessage(request.GetType().Name);
-                return await next();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogHandlerPipelineExceptionMessage(ex.Message);
-                throw;
-            }
+            _logger.LogHandlerPipelineExceptionMessage(ex.Message);
+            throw;
         }
     }
 }

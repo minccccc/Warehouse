@@ -1,9 +1,8 @@
-﻿namespace Application.Configuration
-{
-    public class ProductsSourceConfig
-    {
-        public string Uri { get; set; }
+﻿namespace Application.Configuration;
 
-        public int RefreshTime { get; set; }
-    }
+public class ProductsSourceConfig
+{
+    public required string Uri { get; set; }
+
+    public required int RefreshTime { get; set; }
 }

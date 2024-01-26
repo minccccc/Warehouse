@@ -2,69 +2,68 @@
 using NetArchTest.Rules;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests;
+
+public class ArchitectureTests
 {
-    public class ArchitectureTests
+    private const string ApplicationNamespace = "Application";
+    private const string InfrastructureNamespace = "Infrastructure";
+    private const string WepApiNamespace = "WebApi";
+
+    [Fact]
+    public void Domain_Should_Not_HaveDependencyOnOtherProjects()
     {
-        private const string ApplicationNamespace = "Application";
-        private const string InfrastructureNamespace = "Infrastructure";
-        private const string WepApiNamespace = "WebApi";
+        var assembly = typeof(Domain.Models.Product).Assembly;
 
-        [Fact]
-        public void Domain_Should_Not_HaveDependencyOnOtherProjects()
+        var otherProjects = new[]
         {
-            var assembly = typeof(Domain.Models.Product).Assembly;
+            ApplicationNamespace,
+            InfrastructureNamespace,
+            WepApiNamespace
+        };
 
-            var otherProjects = new[]
-            {
-                ApplicationNamespace,
-                InfrastructureNamespace,
-                WepApiNamespace
-            };
+        var testResult = Types.InAssembly(assembly)
+            .ShouldNot()
+            .HaveDependencyOnAll(otherProjects)
+            .GetResult();
 
-            var testResult = Types.InAssembly(assembly)
-                .ShouldNot()
-                .HaveDependencyOnAll(otherProjects)
-                .GetResult();
+        testResult.IsSuccessful.Should().BeTrue();
+    }
 
-            testResult.IsSuccessful.Should().BeTrue();
-        }
+    [Fact]
+    public void Application_Should_Not_HaveDependencyOnOtherProjects()
+    {
+        var assembly = typeof(Application.Extensions.DependencyRegistrationExtention).Assembly;
 
-        [Fact]
-        public void Application_Should_Not_HaveDependencyOnOtherProjects()
+        var otherProjects = new[]
         {
-            var assembly = typeof(Application.AppConstants).Assembly;
+            InfrastructureNamespace,
+            WepApiNamespace
+        };
 
-            var otherProjects = new[]
-            {
-                InfrastructureNamespace,
-                WepApiNamespace
-            };
+        var testResult = Types.InAssembly(assembly)
+            .ShouldNot()
+            .HaveDependencyOnAll(otherProjects)
+            .GetResult();
 
-            var testResult = Types.InAssembly(assembly)
-                .ShouldNot()
-                .HaveDependencyOnAll(otherProjects)
-                .GetResult();
+        testResult.IsSuccessful.Should().BeTrue();
+    }
 
-            testResult.IsSuccessful.Should().BeTrue();
-        }
+    [Fact]
+    public void Infrastructure_Should_Not_HaveDependencyOnOtherProjects()
+    {
+        var assembly = typeof(Infrastructure.Extensions.DependencyRegistrationExtention).Assembly;
 
-        [Fact]
-        public void Infrastructure_Should_Not_HaveDependencyOnOtherProjects()
+        var otherProjects = new[]
         {
-            var assembly = typeof(Infrastructure.Logger.LoggerMessageDefinitions).Assembly;
+            WepApiNamespace
+        };
 
-            var otherProjects = new[]
-            {
-                WepApiNamespace
-            };
+        var testResult = Types.InAssembly(assembly)
+            .ShouldNot()
+            .HaveDependencyOnAll(otherProjects)
+            .GetResult();
 
-            var testResult = Types.InAssembly(assembly)
-                .ShouldNot()
-                .HaveDependencyOnAll(otherProjects)
-                .GetResult();
-
-            testResult.IsSuccessful.Should().BeTrue();
-        }
+        testResult.IsSuccessful.Should().BeTrue();
     }
 }

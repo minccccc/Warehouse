@@ -1,17 +1,21 @@
-﻿using Application.Features.Products.Query;
+﻿using Application.Features.Queries.GetProducts;
+using Application.Models;
 using AutoMapper;
 using Domain.Models;
-using WebApi.DTOs;
+using WebApi.Models.Requests;
+using WebApi.Models.Responses;
 
-namespace WebApi.MappingProfiles
+namespace WebApi.MappingProfiles;
+
+public class ProductMappingProfiles : Profile
 {
-    public class ProductMappingProfiles : Profile
+    public ProductMappingProfiles()
     {
-        public ProductMappingProfiles()
-        {
-            CreateMap<Product, ProductDto>();
-            CreateMap<ProductsSummary, ProductsSummaryDto>();
-            CreateMap<GetProductsResponse, QueryProductsResponseDto>();
-        }
+        CreateMap<Product, ProductResponse>();
+        CreateMap<ProductsSummary, ProductsSummaryResponse>();
+        CreateMap<GetProductsDto, QueryProductsResponse>();
+        CreateMap<GetFilteredProductsRequest, GetProductsQuery>();
+        CreateMap<ProductsSummary, GetProductsDto>()
+            .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src));
     }
 }

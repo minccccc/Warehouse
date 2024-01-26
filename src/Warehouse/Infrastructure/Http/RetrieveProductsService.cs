@@ -1,40 +1,39 @@
 ﻿using Newtonsoft.Json;
 
-namespace Infrastructure.Http
+namespace Infrastructure.Http;
+
+public class RetrieveProductsService : IRetrieveProductsService
 {
-    public class RetrieveProductsService : IRetrieveProductsService
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public RetrieveProductsService(
+        IHttpClientFactory httpClientFactory)
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        _httpClientFactory = httpClientFactory;
+    }
 
-        public RetrieveProductsService(
-            IHttpClientFactory httpClientFactory)
+    public async Task<T> GetProducts<T>(string sourceUri, CancellationToken cancellationToken)
+    {
+        var httpClient = _httpClientFactory.CreateClient();
+
+        var response = await httpClient.GetAsync(sourceUri, cancellationToken);
+
+        try
         {
-            _httpClientFactory = httpClientFactory;
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResult = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                return JsonConvert.DeserializeObject<T>(stringResult);
+            }
+            else
+            {
+                throw new Exception($"Failed to retrieve products from the source {response.StatusCode}");
+            }
         }
-
-        public async Task<T> GetProducts<T>(string sourceUri, CancellationToken cancellationToken)
+        catch (Exception)
         {
-            var httpClient = _httpClientFactory.CreateClient();
-
-            var response = await httpClient.GetAsync(sourceUri, cancellationToken);
-
-            try
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    var stringResult = await response.Content.ReadAsStringAsync(cancellationToken);
-
-                    return JsonConvert.DeserializeObject<T>(stringResult);
-                }
-                else
-                {
-                    throw new Exception($"Failed to retrieve products from the source {response.StatusCode}");
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            throw;
         }
     }
 }

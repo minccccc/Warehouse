@@ -1,6 +1,6 @@
-﻿namespace Domain.Models;
+﻿namespace WebApi.Models.Responses;
 
-public class Product
+public class ProductResponse
 {
     public string Title { get; set; }
 

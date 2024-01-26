@@ -1,7 +1,6 @@
-﻿namespace Infrastructure.Http
+﻿namespace Infrastructure.Http;
+
+public interface IRetrieveProductsService
 {
-    public interface IRetrieveProductsService
-    {
-        Task<T> GetProducts<T>(string sourceUri, CancellationToken cancellationToken);
-    }
+    Task<T> GetProducts<T>(string sourceUri, CancellationToken cancellationToken);
 }

@@ -1,6 +1,6 @@
-﻿namespace Domain.Models;
+﻿namespace WebApi.Models.Responses;
 
-public class ProductsSummary
+public class ProductsSummaryResponse
 {
     public double MinPrice { get; set; }
 
