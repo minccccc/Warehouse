@@ -1,7 +1,7 @@
 using Application.Extensions;
 using Infrastructure.Extensions;
-using WebApi.ErrorHandling;
 using WebApi.Extensions;
+using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +12,6 @@ builder.Services.AddInfrastructure();
 builder.Services.AddPresentation();
 
 var app = builder.Build();
-//Add Global exception handler
-app.UseExceptionHandler(exceptionHandlerApp => exceptionHandlerApp.ConfigureExceptionHandler());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -21,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

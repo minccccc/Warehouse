@@ -1,19 +1,26 @@
 ﻿using Application.Common.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace WebApi.ErrorHandling;
+namespace WebApi.Middlewares;
 
-public static class ExceptionHandlerExtensions
+public class ExceptionHandlingMiddleware
 {
-    public static void ConfigureExceptionHandler(this IApplicationBuilder application)
-    {
-        application.Run(async context =>
-        {
-            var exceptionHandlerPathFeature =
-                context.Features.Get<IExceptionHandlerPathFeature>();
+    private readonly RequestDelegate _next;
 
-            if (exceptionHandlerPathFeature?.Error is ModelValidationException error)
+    public ExceptionHandlingMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
+        {
+            await _next(context);
+        }
+        catch (Exception ex)
+        {
+            if (ex is ModelValidationException error)
             {
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsJsonAsync(error.Errors
@@ -30,6 +37,6 @@ public static class ExceptionHandlerExtensions
                 context.Response.ContentType = Text.Plain;
                 await context.Response.WriteAsync("General exception was thrown.");
             }
-        });
+        }
     }
 }
