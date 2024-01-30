@@ -6,7 +6,7 @@ using WebApi.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddLogger(builder.Configuration);
-
+builder.Services.AddConfiguration(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure();
 builder.Services.AddPresentation();

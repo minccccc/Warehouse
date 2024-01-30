@@ -13,57 +13,66 @@ public class ArchitectureTests
     [Fact]
     public void Domain_Should_Not_HaveDependencyOnOtherProjects()
     {
+        //Arrange
         var assembly = typeof(Domain.Models.Product).Assembly;
 
-        var otherProjects = new[]
-        {
-            ApplicationNamespace,
-            InfrastructureNamespace,
-            WepApiNamespace
-        };
-
-        var testResult = Types.InAssembly(assembly)
-            .ShouldNot()
-            .HaveDependencyOnAll(otherProjects)
+        //Act
+        var wepApiDependencyResult = Types.InAssembly(assembly)
+            .Should()
+            .NotHaveDependencyOn(WepApiNamespace)
             .GetResult();
 
-        testResult.IsSuccessful.Should().BeTrue();
+        var infrastructureDependencyResult = Types.InAssembly(assembly)
+            .Should()
+            .NotHaveDependencyOn(InfrastructureNamespace)
+            .GetResult();
+        
+        var applicationDependencyResult = Types.InAssembly(assembly)
+            .Should()
+            .NotHaveDependencyOn(ApplicationNamespace)
+            .GetResult();
+
+        //Assert
+        wepApiDependencyResult.IsSuccessful.Should().BeTrue();
+        infrastructureDependencyResult.IsSuccessful.Should().BeTrue();
+        applicationDependencyResult.IsSuccessful.Should().BeTrue();
     }
 
     [Fact]
     public void Application_Should_Not_HaveDependencyOnOtherProjects()
     {
+        //Arrange
         var assembly = typeof(Application.Extensions.DependencyRegistrationExtention).Assembly;
 
-        var otherProjects = new[]
-        {
-            InfrastructureNamespace,
-            WepApiNamespace
-        };
-
-        var testResult = Types.InAssembly(assembly)
-            .ShouldNot()
-            .HaveDependencyOnAll(otherProjects)
+        //Act
+        var wepApiDependencyResult = Types.InAssembly(assembly)
+            .Should()
+            .NotHaveDependencyOn(WepApiNamespace)
             .GetResult();
 
-        testResult.IsSuccessful.Should().BeTrue();
+        var infrastructureDependencyResult = Types.InAssembly(assembly)
+            .Should()
+            .NotHaveDependencyOn(InfrastructureNamespace)
+            .GetResult();
+
+        //Assert
+        wepApiDependencyResult.IsSuccessful.Should().BeTrue();
+        infrastructureDependencyResult.IsSuccessful.Should().BeTrue();
     }
 
     [Fact]
     public void Infrastructure_Should_Not_HaveDependencyOnOtherProjects()
     {
+        //Arrange
         var assembly = typeof(Infrastructure.Extensions.DependencyRegistrationExtention).Assembly;
 
-        var otherProjects = new[]
-        {
-            WepApiNamespace
-        };
-
-        var testResult = Types.InAssembly(assembly)
-            .ShouldNot()
-            .HaveDependencyOnAll(otherProjects)
+        //Act
+        var wepApiDependencyResult = Types.InAssembly(assembly)
+            .Should()
+            .NotHaveDependencyOn(WepApiNamespace)
             .GetResult();
 
-        testResult.IsSuccessful.Should().BeTrue();
+        //Assert
+        wepApiDependencyResult.IsSuccessful.Should().BeTrue();
     }
 }

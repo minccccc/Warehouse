@@ -1,10 +1,10 @@
 ﻿using Application.Common.Constants;
 using Application.Extensions;
-using Application.Models;
+using Application.Interfaces;
+using Application.Models.DTOs;
 using AutoMapper;
 using Domain.Models;
 using FluentValidation;
-using Infrastructure.Cache;
 using MediatR;
 
 namespace Application.Features.Queries.GetProducts;

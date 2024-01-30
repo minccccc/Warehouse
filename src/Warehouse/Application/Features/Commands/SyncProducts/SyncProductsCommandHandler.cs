@@ -1,19 +1,18 @@
 ﻿using Application.Common.Constants;
 using Application.Extensions;
+using Application.Interfaces;
 using Domain.Models;
-using Infrastructure.Cache;
-using Infrastructure.Http;
 using MediatR;
 
 namespace Application.Features.Commands.SyncProducts;
 
 public class SyncProductsCommandHandler : IRequestHandler<SyncProductsCommand>
 {
-    private readonly IRetrieveProductsService _retrieveProductsService;
+    private readonly IMockyHttpClientService _retrieveProductsService;
     private readonly ICacheProvider _cacheProvider;
 
     public SyncProductsCommandHandler(
-        IRetrieveProductsService retrieveProductsService,
+        IMockyHttpClientService retrieveProductsService,
         ICacheProvider cacheProvider)
     {
         _retrieveProductsService = retrieveProductsService;

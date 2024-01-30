@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Common.Constants;
+using FluentValidation;
 
 namespace Application.Features.Queries.GetProducts;
 
@@ -8,14 +9,14 @@ public class GetProductsQueryValidator : AbstractValidator<GetProductsQuery>
     {
         RuleFor(p => p.MinPrice)
             .Must(m => m == null || m >= 0)
-            .WithMessage("MinPrice can not be negative");
+            .WithMessage(AppConstants.Validations.MinPrice_Negative);
 
         RuleFor(p => p.MaxPrice)
             .Must(m => m == null || m >= 0)
-            .WithMessage("MaxPrice can not be negative");
+            .WithMessage(AppConstants.Validations.MaxPrice_Negative);
 
         RuleFor(product => product)
             .Must(product => !product.MinPrice.HasValue || !product.MaxPrice.HasValue || product.MinPrice < product.MaxPrice)
-            .WithMessage("MinPrice must be less than MaxPrice");
+            .WithMessage(AppConstants.Validations.MinPrice_LessThanMaxPrice);
     }
 }

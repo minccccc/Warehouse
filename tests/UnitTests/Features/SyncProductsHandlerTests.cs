@@ -12,13 +12,16 @@ public class SyncProductsHandlerTests
     [Fact]
     public async Task Should_CacheAllProducts()
     {
-        var cacheProviderMock = ICacheProviderMock.GetMock();
-        var retrieveProductsMock = IRetrieveProductsServiceMock.GetMock();
-
+        //Arrange
+        var cacheProviderMock = CacheProviderMock.GetMock();
+        var retrieveProductsMock = MockyHttpClientServiceMock.GetMock();
         var command = new SyncProductsCommand("");
-        var handler = new SyncProductsCommandHandler(retrieveProductsMock.Object, cacheProviderMock.Object);
-        await handler.Handle(command, new CancellationToken());
+        var sut = new SyncProductsCommandHandler(retrieveProductsMock.Object, cacheProviderMock.Object);
 
+        //Act
+        await sut.Handle(command, new CancellationToken());
+
+        //Assert
         var cachedProducts = cacheProviderMock.Object.Get<List<Product>>(AppConstants.ProductsCacheKey);
         var retrievedProducts = await retrieveProductsMock.Object.GetProducts<List<Product>>("", new CancellationToken());
 
@@ -28,13 +31,16 @@ public class SyncProductsHandlerTests
     [Fact]
     public async Task Should_CalculateSummary()
     {
-        var cacheProviderMock = ICacheProviderMock.GetMock();
-        var retrieveProductsMock = IRetrieveProductsServiceMock.GetMock();
-
+        //Arrange
+        var cacheProviderMock = CacheProviderMock.GetMock();
+        var retrieveProductsMock = MockyHttpClientServiceMock.GetMock();
         var command = new SyncProductsCommand("");
-        var handler = new SyncProductsCommandHandler(retrieveProductsMock.Object, cacheProviderMock.Object);
-        await handler.Handle(command, new CancellationToken());
+        var sut = new SyncProductsCommandHandler(retrieveProductsMock.Object, cacheProviderMock.Object);
 
+        //Act
+        await sut.Handle(command, new CancellationToken());
+
+        //Assert
         var cachedProducts = cacheProviderMock.Object.Get<List<Product>>(AppConstants.ProductsCacheKey);
         var cachedSummary = cacheProviderMock.Object.Get<ProductsSummary>(AppConstants.ProductsSummaryCacheKey);
 

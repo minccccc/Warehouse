@@ -1,14 +1,14 @@
-﻿using Domain.Models;
-using Infrastructure.Http;
+﻿using Application.Interfaces;
+using Domain.Models;
 using Moq;
 
 namespace UnitTests.Mocks;
 
-public static class IRetrieveProductsServiceMock
+public static class MockyHttpClientServiceMock
 {
-    public static Mock<IRetrieveProductsService> GetMock()
+    public static Mock<IMockyHttpClientService> GetMock()
     {
-        var retrieveProductMock = new Mock<IRetrieveProductsService>();
+        var retrieveProductMock = new Mock<IMockyHttpClientService>();
         retrieveProductMock.Setup(m => m.GetProducts<List<Product>>("", new CancellationToken()))
             .ReturnsAsync(new List<Product>()
             {

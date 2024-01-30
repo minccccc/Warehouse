@@ -13,8 +13,16 @@ public static class AppConstants
         public const int Top = 10;
     }
 
+    public static class Validations
+    {
+        public const string MinPrice_Negative = "MinPrice can not be negative";
+        public const string MaxPrice_Negative = "MaxPrice can not be negative";
+        public const string MinPrice_LessThanMaxPrice = "MinPrice must be less than MaxPrice";
+    }
+
     public static class Configuration
     {
-        public const string ProductsSourceSection = "ProductsSource";
+        public const string MockyClientSection = "MockyClient";
+        public const string SchedulerSection = "Scheduler";
     }
 }

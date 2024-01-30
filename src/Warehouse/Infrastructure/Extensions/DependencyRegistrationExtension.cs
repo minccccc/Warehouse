@@ -1,4 +1,5 @@
-﻿using Infrastructure.Cache;
+﻿using Application.Interfaces;
+using Infrastructure.Cache;
 using Infrastructure.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ public static class DependencyRegistrationExtention
     public static void AddInfrastructure(this IServiceCollection services)
     {
         services.AddHttpClient();
-        services.AddTransient<IRetrieveProductsService, RetrieveProductsService>();
+        services.AddTransient<IMockyHttpClientService, MockyHttpClientService>();
         services.AddSingleton<ICacheProvider, InMemoryCacheProvider>();
     }
 

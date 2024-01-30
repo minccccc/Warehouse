@@ -1,4 +1,4 @@
-﻿using Application.Models;
+﻿using Application.Models.DTOs;
 using MediatR;
 
 namespace Application.Features.Queries.GetProducts;

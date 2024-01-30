@@ -7,21 +7,16 @@ using WebApi.Models.Responses;
 
 namespace WebApi.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class StockController : ControllerBase
+public class StockController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
     public StockController(IMediator mediator, IMapper mapper)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+        : base(mediator, mapper)
+    { }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] GetFilteredProductsRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get(
+        [FromQuery] GetFilteredProductsRequest request,
+        CancellationToken cancellationToken)
     {
         var query = _mapper.Map<GetProductsQuery>(request);
 

@@ -1,15 +1,21 @@
-﻿using Newtonsoft.Json;
+﻿using Application.Common;
+using Application.Interfaces;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Infrastructure.Http;
 
-public class RetrieveProductsService : IRetrieveProductsService
+public class MockyHttpClientService : IMockyHttpClientService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<MockyHttpClientService> _logger;
 
-    public RetrieveProductsService(
-        IHttpClientFactory httpClientFactory)
+    public MockyHttpClientService(
+        IHttpClientFactory httpClientFactory,
+        ILogger<MockyHttpClientService> logger)
     {
         _httpClientFactory = httpClientFactory;
+        _logger = logger;
     }
 
     public async Task<T> GetProducts<T>(string sourceUri, CancellationToken cancellationToken)
@@ -31,8 +37,9 @@ public class RetrieveProductsService : IRetrieveProductsService
                 throw new Exception($"Failed to retrieve products from the source {response.StatusCode}");
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogrRetrieveProductsFailure(ex.Message);
             throw;
         }
     }

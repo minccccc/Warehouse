@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace Application.Models;
+namespace Application.Models.DTOs;
 
 public class GetProductsDto
 {

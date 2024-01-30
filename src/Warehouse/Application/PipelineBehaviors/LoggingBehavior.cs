@@ -1,4 +1,4 @@
-﻿using Infrastructure.Logger;
+﻿using Application.Common;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

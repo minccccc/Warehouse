@@ -27,10 +27,8 @@ public static class DependencyRegistrationExtention
 
     private static void AddQuartz(this IServiceCollection services, IConfiguration configuration)
     {
-        var productSourceSection = configuration.GetSection(AppConstants.Configuration.ProductsSourceSection);
-        services.Configure<ProductsSourceConfig>(productSourceSection);
-
-        var productsSourceConfig = productSourceSection.Get<ProductsSourceConfig>();
+        var schedulerSection = configuration.GetSection(AppConstants.Configuration.SchedulerSection);
+        var schedulerConfig = schedulerSection.Get<SchedulerConfig>();
         services.AddQuartz(options =>
         {
             var jobKey = JobKey.Create(nameof(ProductsSyncService));
@@ -38,7 +36,7 @@ public static class DependencyRegistrationExtention
             options
                 .AddJob<ProductsSyncService>(jobKey)
                 .AddTrigger(trigger => trigger.ForJob(jobKey)
-                .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(productsSourceConfig.RefreshTime)
+                .WithSimpleSchedule(schedule => schedule.WithIntervalInMinutes(schedulerConfig.RecurringJobTimeInMinutes)
                 .RepeatForever()));
         });
 

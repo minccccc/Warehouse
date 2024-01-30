@@ -1,11 +1,11 @@
-﻿using Application.Models;
+﻿using Application.Models.DTOs;
 using AutoMapper;
 using Domain.Models;
 using Moq;
 
 namespace UnitTests.Mocks;
 
-public static class IMapperMock
+public static class MapperMock
 {
 
     public static Mock<IMapper> GetMock()

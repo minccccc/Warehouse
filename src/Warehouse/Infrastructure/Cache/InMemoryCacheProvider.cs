@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Application.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Infrastructure.Cache;
 

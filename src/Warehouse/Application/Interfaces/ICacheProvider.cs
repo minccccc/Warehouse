@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Cache;
+﻿namespace Application.Interfaces;
 
 public interface ICacheProvider
 {

@@ -1,11 +1,11 @@
 ﻿using Application.Common.Constants;
+using Application.Interfaces;
 using Domain.Models;
-using Infrastructure.Cache;
 using Moq;
 
 namespace UnitTests.Mocks;
 
-public static class ICacheProviderMock
+public static class CacheProviderMock
 {
     public static Mock<ICacheProvider> GetMock()
     {

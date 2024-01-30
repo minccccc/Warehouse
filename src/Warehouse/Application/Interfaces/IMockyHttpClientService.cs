@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.Http;
+﻿namespace Application.Interfaces;
 
-public interface IRetrieveProductsService
+public interface IMockyHttpClientService
 {
     Task<T> GetProducts<T>(string sourceUri, CancellationToken cancellationToken);
 }

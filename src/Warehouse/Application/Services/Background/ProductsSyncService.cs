@@ -9,22 +9,19 @@ namespace Application.Services.Background;
 public class ProductsSyncService : IJob
 {
     private readonly IMediator _mediator;
-    private readonly ProductsSourceConfig _productsSourceConfig;
+    private readonly MockyClientConfig _mockyClientConfig;
 
     public ProductsSyncService(
         IMediator mediator,
-        IOptions<ProductsSourceConfig> productsSourcs)
+        IOptions<MockyClientConfig> mockyClientConfig)
     {
         _mediator = mediator;
-        _productsSourceConfig = productsSourcs.Value;
+        _mockyClientConfig = mockyClientConfig.Value;
     }
 
     public async Task Execute(IJobExecutionContext context)
     {
-        try
-        {
-            await _mediator.Send(new SyncProductsCommand(_productsSourceConfig.Uri));
-        }
-        catch { }
+        var uri = _mockyClientConfig.BaseUrl + _mockyClientConfig.ProductUrl;
+        await _mediator.Send(new SyncProductsCommand(uri));
     }
 }
