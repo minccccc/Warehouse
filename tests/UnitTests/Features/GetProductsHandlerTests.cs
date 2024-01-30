@@ -31,16 +31,16 @@ public class GetProductsHandlerTests
     public async Task Should_FilterByPrice(double? minPrice, double? maxPrice)
     {
         //Arrange
-        var query = new GetProductsQuery(minPrice, maxPrice, new List<string>(), null);
+        var query = new GetProductsQuery((decimal?)minPrice, (decimal?)maxPrice, new List<string>(), null);
 
         //Act
         var result = await SendToHandler(query);
 
         //Assert
         result.Products.Select(p => p.Price)
-            .Should().OnlyContain(x => minPrice != null ? x > minPrice : true);
+            .Should().OnlyContain(x => minPrice != null ? x > (decimal?)minPrice : true);
         result.Products.Select(p => p.Price)
-            .Should().OnlyContain(x => maxPrice != null ? x <= maxPrice : true);
+            .Should().OnlyContain(x => maxPrice != null ? x <= (decimal?)maxPrice : true);
     }
 
     [Theory]
@@ -49,7 +49,7 @@ public class GetProductsHandlerTests
     public async Task Should_ReturnNoProducts(double? minPrice, double? maxPrice)
     {
         //Arrange
-        var query = new GetProductsQuery(minPrice, maxPrice, new List<string>(), null);
+        var query = new GetProductsQuery((decimal?)minPrice, (decimal?)maxPrice, new List<string>(), null);
 
         //Act
         var result = await SendToHandler(query);

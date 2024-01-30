@@ -35,7 +35,7 @@ public class ExceptionHandlingMiddleware
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
                 context.Response.ContentType = Text.Plain;
-                await context.Response.WriteAsync("General exception was thrown.");
+                await context.Response.WriteAsync("Something went wrong.");
             }
         }
     }

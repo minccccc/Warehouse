@@ -15,21 +15,21 @@ public static class MockyHttpClientServiceMock
                 new Product()
                 {
                     Title = "New Product1",
-                    Price = 24.99,
+                    Price = 24.99M,
                     Sizes = new List<string>() { "Small", "Medium", "Large" },
                     Description = "Product 1 description : Comfortable cotton t-shirt in red with a stylish design."
                 },
                 new Product()
                 {
                     Title = "New Product2",
-                    Price = 34.99,
+                    Price = 34.99M,
                     Sizes = new List<string>() { "Small", "Medium" },
                     Description = "Product 2 description: Timeless classic jeans in blue for a casual and versatile look."
                 },
                 new Product()
                 {
                     Title = "New Product3",
-                    Price = 44.99,
+                    Price = 44.99M,
                     Sizes = new List<string>() { "Medium", "Large" },
                     Description = "Product 3 description : Warm and cozy hoodie in green for a relaxed and comfortable style."
                 }

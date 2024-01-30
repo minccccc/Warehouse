@@ -14,32 +14,32 @@ public static class CacheProviderMock
                 new Product()
                 {
                     Title = "Stylish T-Shirt",
-                    Price = 24.99,
+                    Price = 24.99M,
                     Sizes = new List<string>() { "Small", "Medium", "Large" },
                     Description = "Comfortable cotton t-shirt in red with a stylish design."
                 },
                 new Product()
                 {
                     Title = "Classic Jeans",
-                    Price = 34.99,
+                    Price = 34.99M,
                     Sizes = new List<string>() { "Small", "Medium" },
                     Description = "Timeless classic jeans in blue for a casual and versatile look."
                 },
                 new Product(){
                     Title= "Cozy Hoodie",
-                    Price= 16.99,
+                    Price= 16.99M,
                     Sizes= new List<string> () { "Small","Medium", "Large" },
                     Description= "Warm and cozy hoodie in green for a relaxed and comfortable style."
                 },
                 new Product(){
                     Title = "Formal Suit",
-                    Price= 59.99,
+                    Price= 59.99M,
                     Sizes= new List<string>() { "Large" },
                     Description= "Elegant formal suit in white for special occasions and business events."
                 },
                 new Product(){
                     Title= "Sporty Tracksuit",
-                    Price= 69.99,
+                    Price= 69.99M,
                     Sizes= new List<string> { "Small", "Medium", "Large" },
                     Description= "Versatile sporty tracksuit in yellow for an active and stylish lifestyle."
                 }
@@ -47,8 +47,8 @@ public static class CacheProviderMock
         var productsSummary = new ProductsSummary()
         {
             Highlights = new List<string>() { "red", "green", "blue" },
-            MinPrice = 16.99,
-            MaxPrice = 69.99,
+            MinPrice = 16.99M,
+            MaxPrice = 69.99M,
             Sizes = new List<string>() { "Small", "Medium", "Large" }
         };
 

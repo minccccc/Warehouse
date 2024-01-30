@@ -8,20 +8,20 @@ namespace Application.Features.Commands.SyncProducts;
 
 public class SyncProductsCommandHandler : IRequestHandler<SyncProductsCommand>
 {
-    private readonly IMockyHttpClientService _retrieveProductsService;
+    private readonly IMockyHttpClientService _mockyHttpClientService;
     private readonly ICacheProvider _cacheProvider;
 
     public SyncProductsCommandHandler(
-        IMockyHttpClientService retrieveProductsService,
+        IMockyHttpClientService mockyHttpClientService,
         ICacheProvider cacheProvider)
     {
-        _retrieveProductsService = retrieveProductsService;
+        _mockyHttpClientService = mockyHttpClientService;
         _cacheProvider = cacheProvider;
     }
 
     public async Task Handle(SyncProductsCommand request, CancellationToken cancellationToken)
     {
-        var products = await _retrieveProductsService.GetProducts<List<Product>>(request.sourceUri, cancellationToken);
+        var products = await _mockyHttpClientService.GetProducts<List<Product>>(request.sourceUri, cancellationToken);
 
         var summary = new ProductsSummary()
         {

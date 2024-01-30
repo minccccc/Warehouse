@@ -9,6 +9,7 @@ internal static class ListProductExtension
     {
         var commonWords = products
             .SelectMany(p => p.Description.ToLower().SplitToWords())
+            .OrderBy(p => p.Value)
             .GroupBy(w => w.Value)
             .OrderByDescending(descs => descs.Count())
             .Select(c => c.Key)
